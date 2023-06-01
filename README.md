@@ -1,7 +1,7 @@
 # SQL_Portfolio_Project_2-Data_Cleaning
-AlexTheAnalyst Bootcamp
+## AlexTheAnalyst Bootcamp
 
-
+``` sql
 -- Data Cleaning
 
 SELECT *
@@ -10,7 +10,8 @@ FROM Nashville..NashvilleHousing
 -----------------------------------------------------------------------
 --Standardize date format
 
-SELECT Saledate, CONVERT(Date, Saledate)
+SELECT Saledate, 
+	CONVERT(Date, Saledate)
 FROM Nashville..NashvilleHousing
 
 UPDATE NashvilleHousing
@@ -49,10 +50,10 @@ JOIN Nashville..NashvilleHousing NashvilleCleaned
 
 
 SELECT NashvilleRaw.ParcelID, 
-		NashvilleRaw.PropertyAddress, 
-		NashvilleCleaned.ParcelID, 
-		NashvilleCleaned.PropertyAddress,
-		ISNULL(NashvilleRaw.PropertyAddress, NashvilleCleaned.PropertyAddress)
+	NashvilleRaw.PropertyAddress, 
+	NashvilleCleaned.ParcelID, 
+	NashvilleCleaned.PropertyAddress,
+	ISNULL(NashvilleRaw.PropertyAddress, NashvilleCleaned.PropertyAddress)
 FROM Nashville..NashvilleHousing NashvilleRaw
 JOIN Nashville..NashvilleHousing NashvilleCleaned
 	ON NashvilleRaw.ParcelID = NashvilleCleaned.ParcelID
@@ -147,7 +148,7 @@ ALTER COLUMN SoldAsVacant CHAR(10)
 
 SELECT SoldAsVacant,
 		CASE WHEN SoldAsVacant = '0' THEN 'No'
-			 WHEN SoldAsVacant = '1' THEN 'Yes'
+		     WHEN SoldAsVacant = '1' THEN 'Yes'
 			 ELSE SoldAsVacant 
 			 END
 FROM Nashville..NashvilleHousing
@@ -169,11 +170,11 @@ GROUP BY SoldAsVacant
 SELECT *, 
 		ROW_NUMBER() OVER (
 			PARTITION BY ParcelID,
-						PropertyAddress,
-						SalePrice,
-						SaleDate,
-						LegalReference
-						ORDER BY UniqueID) AS row_num
+		 			PropertyAddress,
+					SalePrice,
+					SaleDate,
+					LegalReference
+					ORDER BY UniqueID) AS row_num
 
 FROM Nashville..NashvilleHousing
 ORDER BY ParcelID
@@ -184,11 +185,11 @@ WITH Row_Num_CTE AS (
 SELECT *, 
 		ROW_NUMBER() OVER (
 			PARTITION BY ParcelID,
-						PropertyAddress,
-						SalePrice,
-						SaleDate,
-						LegalReference
-						ORDER BY UniqueID) AS row_num
+					PropertyAddress,
+					SalePrice,
+					SaleDate,
+					LegalReference
+					ORDER BY UniqueID) AS row_num
 
 FROM Nashville..NashvilleHousing
 )
@@ -207,3 +208,4 @@ FROM Nashville..NashvilleHousing
 
 ALTER TABLE Nashville..NashvilleHousing
 DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress
+```
